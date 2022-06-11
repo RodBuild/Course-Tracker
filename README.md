@@ -1,9 +1,11 @@
-<img src="https://octodex.github.com/images/agendacat.png" alt="main-logo" width="200" align="right" />
-#Course Tracker
-##Overview
+<img src="https://octodex.github.com/images/agendacat.png" alt="main-logo" width="200" align="right"/>
+
+# Course Tracker
+
+## Overview
 Web App for users to store the classes the have taken through their academic journal.
 
-##Development Environment
+## Development Environment
 Tools used to complete this project
 - Visual Studio Code
 - GitHub
@@ -15,7 +17,7 @@ Tools used to complete this project
 - Npm Express-Validator.js
 - Npm Validator.js
 
-##Team Members
+## Team Members
 - Rodrigo Rodriguez
 - Chika Wonodi
 - Alan Wangsgard
