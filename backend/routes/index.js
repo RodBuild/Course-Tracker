@@ -9,7 +9,7 @@ const { route } = require('./schools');
 /* TODO 
     Schools -> routes -> controllers -> validation
     Users -> routes -> controllers -> validation
-    Courses -> 
+    Courses -> routes -> controllers -> validation
     Admin -> 
     Reviews -> 
 

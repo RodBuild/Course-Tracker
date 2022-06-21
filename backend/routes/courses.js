@@ -9,15 +9,15 @@ router.get('/valid', controller.getAllValidCourses);
 router.get('/valid/:id', controller.getById);
 router.get('/invalid', controller.getAllInvalidCourses);
 router.get('/invalid/user', requiresAuth(), controller.getCurrentUserCourses);
-router.get('/invalid/:email', controller.getInvalidReviewsByEmail);
+router.get('/invalid/:email', controller.getInvalidCoursesByEmail);
 router.get('/school/:school', controller.getBySchool);
 router.get('/department/:department', controller.getByDepartment);
 router.get('/code/:code', controller.getByCourseCode);
 
 router.post(
   '/valid/admin',
-  body('credits', 'Check your quanitity of credits').isInt({ min: 0, max: 10 }),
   requiresAuth(),
+  body('credits', 'Credits shall only be between 1 to 10').isInt({ min: 1, max: 10 }),
   validation.validateCourse,
   controller.postAdminNewCourse
 );
@@ -25,13 +25,15 @@ router.post(
 router.post(
   '/invalid/user',
   requiresAuth(),
-  validation.validateCourse,
+  body('credits', 'Credits shall only be between 1 to 10').isInt({ min: 1, max: 10 }),
+  //   validation.validateCourse,
   controller.postUserNewCourse
 );
 
 router.put(
   '/valid/admin/:code',
   requiresAuth(),
+  body('credits', 'Credits shall only be between 1 to 10').isInt({ min: 1, max: 10 }),
   validation.validateCourse,
   controller.updateAdminCourse
 );
@@ -39,6 +41,7 @@ router.put(
 router.put(
   '/invalid/user/:code',
   requiresAuth(),
+  body('credits', 'Credits shall only be between 1 to 10').isInt({ min: 1, max: 10 }),
   validation.validateCourse,
   controller.updateUserCourse
 ); // all course code under the code will be updated

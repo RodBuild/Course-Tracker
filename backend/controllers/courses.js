@@ -165,7 +165,7 @@ const getAllInvalidCourses = async (req, res) => {
  * To get all invalid courses:    *
  *    Takes an email              *
  **********************************/
-const getInvalidReviewsByEmail = async (req, res) => {
+const getInvalidCoursesByEmail = async (req, res) => {
   try {
     mongodb
       .getDb()
@@ -414,7 +414,7 @@ module.exports = {
   getByDepartment,
   getByCourseCode,
   getAllInvalidCourses,
-  getInvalidReviewsByEmail,
+  getInvalidCoursesByEmail,
   getCurrentUserCourses,
   postAdminNewCourse,
   postUserNewCourse,
