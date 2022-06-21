@@ -3,7 +3,7 @@
 # Course Tracker
 
 ## Overview
-Web App for users to store the classes the have taken through their academic journal.
+Web App for users to store the classes the have taken through their academic journal. This project gets to help valaidate students taking a aprticular course see thier classes. This also has uniqe identities like a course ID. Admin are able to add, delete users(students) within the system.
 
 ## Development Environment
 Tools used to complete this project
