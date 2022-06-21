@@ -1,0 +1,8 @@
+node_modules
+.env
+notes.txt
+.prettierrc
+JSON example
+swagger/swagger.js
+swagger/swagger-auto.json
+package-lock.json
