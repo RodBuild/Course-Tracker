@@ -4,15 +4,18 @@ const validation = require('../validation/middleware');
 const { body } = require('express-validator');
 const { requiresAuth } = require('express-openid-connect');
 
-// getall
+// get valids
 router.get('/valid', controller.getAllValidCourses);
 router.get('/valid/:id', controller.getById);
+router.get('/valid/code/:code', controller.getValidCourseByCode);
+router.get('/valid/school/:school', controller.getBySchool);
+router.get('/valid/department/:department', controller.getByDepartment);
+
+// get invalids
 router.get('/invalid', controller.getAllInvalidCourses);
-router.get('/invalid/user', requiresAuth(), controller.getCurrentUserCourses);
+router.get('/invalid/code/:code', controller.getInvalidCourseByCode);
 router.get('/invalid/:email', controller.getInvalidCoursesByEmail);
-router.get('/school/:school', controller.getBySchool);
-router.get('/department/:department', controller.getByDepartment);
-router.get('/code/:code', controller.getByCourseCode);
+router.get('/invalid/user', requiresAuth(), controller.getCurrentUserCourses);
 
 router.post(
   '/valid/admin',
@@ -26,7 +29,7 @@ router.post(
   '/invalid/user',
   requiresAuth(),
   body('credits', 'Credits shall only be between 1 to 10').isInt({ min: 1, max: 10 }),
-  //   validation.validateCourse,
+  validation.validateCourse,
   controller.postUserNewCourse
 );
 

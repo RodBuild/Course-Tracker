@@ -71,6 +71,10 @@ const createUserData = async (req, res) => {
   if (isAdmin) {
     return res.status(400).json('Administrator cannot run this request.');
   }
+  const dataExists = await admin.dataExists(userEmail);
+  if (dataExists) {
+    return res.status(400).json('User data already exists.');
+  }
   const errors = validationResult(req, res);
   if (!errors.isEmpty()) {
     return res.status(400).json({ Errors: errors.array() });
@@ -82,7 +86,7 @@ const createUserData = async (req, res) => {
     school: req.body.school,
     school_email: `${userEmail}`,
     school_id: req.body.school_id,
-    verified: req.body.verified,
+    verified: false,
     isAdmin: false
   };
   const response = await mongodb.getDb().db().collection('users_data').insertOne(newData);
@@ -116,7 +120,7 @@ const updateUserData = async (req, res) => {
     school: req.body.school,
     school_email: `${userEmail}`,
     school_id: req.body.school_id,
-    verified: req.body.verified,
+    verified: false,
     isAdmin: false
   };
   const response = await mongodb

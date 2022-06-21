@@ -8,12 +8,11 @@ const { route } = require('./schools');
 
 /* TODO 
     Schools -> routes -> controllers -> validation
-    Users -> routes -> controllers -> validation
+    Users -> routes -> controllers -> validation -> create and update will always default verified to FALSE
     Courses -> routes -> controllers -> validation
-    Admin -> 
-    Reviews -> 
-
-
+    Admin -> PROBABLY DONE?
+    Reviews -> routes -> controllers -> needs validation
+    SWAGGER.JSON
 */
 
 /* API requests */

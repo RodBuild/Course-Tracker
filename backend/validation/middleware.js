@@ -76,7 +76,7 @@ const validateUser = (req, res, next) => {
     school: 'required|string|min:3|max:100',
     //school_email: 'required|email',
     school_id: 'required|string|min:10|max:10',
-    verified: 'required|string|min:3|max:5'
+    // verified: 'required|string|min:3|max:5'
   };
   // console.log(req);
   validator(req.body, validationRule, {}, (err, status) => {

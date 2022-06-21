@@ -10,7 +10,7 @@ router.post(
   '/',
   requiresAuth(),
   body('school_id', 'value needs to be 10 characters long').isLength({ min: 10, max: 10 }),
-  body('verified', 'value can only be true or false').isIn(['true', 'false']),
+  // body('verified', 'value can only be true or false').isIn(['true', 'false']),
   validation.validateUser,
   controller.createUserData
 );
@@ -18,7 +18,7 @@ router.put(
   '/',
   requiresAuth(),
   body('school_id', 'value needs to be 10 characters long').isLength({ min: 10, max: 10 }),
-  body('verified', 'value can only be true or false').isIn(['true', 'false']),
+  // body('verified', 'value can only be true or false').isIn(['true', 'false']),
   validation.validateUser,
   controller.updateUserData
 );

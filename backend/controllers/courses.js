@@ -114,15 +114,42 @@ const getByDepartment = async (req, res) => {
 };
 
 /********************************
- * To get all valid courses:    *
+ * To get one valid courses:    *
  *    Takes a course code       *
  ********************************/
-const getByCourseCode = async (req, res) => {
+const getValidCourseByCode = async (req, res) => {
+  console.log('stop');
   try {
     mongodb
       .getDb()
       .db()
       .collection('courses')
+      .find({ code: req.params.code })
+      .toArray((err, result) => {
+        if (result.length === 0) {
+          res.status(404).json(`No data was found`);
+        } else if (err) {
+          res.status(400).json({ message: err });
+        } else {
+          res.setHeader('Content-Type', 'application/json');
+          res.status(200).json(result);
+        }
+      });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+/**********************************
+ * To get one invalid courses:    *
+ *    Takes a course code         *
+ **********************************/
+const getInvalidCourseByCode = async (req, res) => {
+  try {
+    mongodb
+      .getDb()
+      .db()
+      .collection('courses_unverified')
       .find({ code: req.params.code })
       .toArray((err, result) => {
         if (result.length === 0) {
@@ -225,6 +252,10 @@ const postAdminNewCourse = async (req, res) => {
   if (!isAdmin) {
     return res.status(400).json('Bad Request');
   }
+  const courseExists = await admin.courseValidExists(req.body.code);
+  if (courseExists) {
+    return res.status(400).json('Course already exists');
+  }
   const errors = validationResult(req, res);
   if (!errors.isEmpty()) {
     return res.status(400).json({ Errors: errors.array() });
@@ -256,6 +287,10 @@ const postUserNewCourse = async (req, res) => {
   const isAdmin = await admin.isAdmin(userEmail);
   if (isAdmin) {
     return res.status(400).json('Administrator cannot run this request.');
+  }
+  const courseExists = await admin.courseInvalidExists(req.body.code);
+  if (courseExists) {
+    return res.status(400).json('Course already exists');
   }
   const errors = validationResult(req, res);
   if (!errors.isEmpty()) {
@@ -412,7 +447,8 @@ module.exports = {
   getById,
   getBySchool,
   getByDepartment,
-  getByCourseCode,
+  getInvalidCourseByCode,
+  getValidCourseByCode,
   getAllInvalidCourses,
   getInvalidCoursesByEmail,
   getCurrentUserCourses,

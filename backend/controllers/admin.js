@@ -53,7 +53,7 @@ const verifyUser = async (req, res) => {
   if (response.modifiedCount > 0) {
     res.status(204).send();
   } else {
-    res.status(403).json(response.error || `User is already marked as verified`);
+    res.status(403).json(response.error || `User is already marked as verified or does not exist`);
   }
 };
 
@@ -80,13 +80,33 @@ const getAllVerifiedUsers = async (req, res) => {
     }
   });
 };
-// TODO:
+
 // verify a single entry.
+/*********************************
+ * To verify a single review:    *
+ *    Takes an id                *
+ *********************************/
 const verifyReview = async (req, res) => {
   const userEmail = req.oidc.user.email;
   const isAdmin = await admin.isAdmin(userEmail);
   if (!isAdmin) {
     return res.status(400).json('Bad Request');
+  }
+  if (!ObjectId.isValid(req.params.id)) {
+    return res.status(400).json('Must pass a valid ID');
+  }
+  const reviewId = new ObjectId(req.params.id);
+  const response = await mongodb
+    .getDb()
+    .db()
+    .collection('users_reviews')
+    .updateOne({ _id: reviewId }, { $set: { verified: 'true' } });
+  if (response.modifiedCount > 0) {
+    res.status(204).send();
+  } else {
+    res
+      .status(403)
+      .json(response.error || `Review is already marked as verified or does not exist`);
   }
 };
 
@@ -98,6 +118,41 @@ const verifyReview = async (req, res) => {
 //     return res.status(400).json('Bad Request');
 //   }
 // };
+
+// delete a review by its ID
+const removeReview = async (req, res) => {
+  const userEmail = req.oidc.user.email;
+  const isAdmin = await admin.isAdmin(userEmail);
+  if (!isAdmin) {
+    return res.status(400).json('Bad Request');
+  }
+  if (!ObjectId.isValid(req.params.id)) {
+    return res.status(400).json('Must pass a valid ID');
+  }
+  const reviewId = new ObjectId(req.params.id);
+  const response = await mongodb
+    .getDb()
+    .db()
+    .collection('users_reviews')
+    .deleteOne({ _id: reviewId }, true);
+  if (response.deletedCount > 0) {
+    res.status(204).send();
+  } else {
+    res.status(403).json(response.error || `Review could not be found`);
+  }
+};
+
+// Verify course?? - Wouldn't it be better to do it by hand???
+const verifyCourse = async (req, res) => {
+  //take an id,
+  //look into unverified courses
+  // mathc with id and copy contents into a new dictionary object
+  //insert new dict object into courses
+  // return some response
+};
+
+//
+// const
 
 /*****************************
  * To get all ban a user:    *
@@ -174,6 +229,6 @@ module.exports = {
   getAllVerifiedUsers,
   verifyUser,
   verifyReview,
+  removeReview,
   banUser
-  
 };
