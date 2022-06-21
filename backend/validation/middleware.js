@@ -96,5 +96,6 @@ module.exports = {
   validateSchool,
   validateCourse,
   validateTracker,
-  validateUser
+  validateUser,
+  
 };
