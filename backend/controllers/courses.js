@@ -261,7 +261,7 @@ const postAdminNewCourse = async (req, res) => {
     return res.status(400).json({ Errors: errors.array() });
   }
   const newCourse = {
-    code: req.body.code,
+    code: req.body.code.toUpperCase(),
     department: req.body.department,
     name: req.body.name,
     description: req.body.description,
@@ -298,7 +298,7 @@ const postUserNewCourse = async (req, res) => {
   }
   const newCourse = {
     author: `${userEmail}`,
-    code: req.body.code,
+    code: req.body.code.toUpperCase(),
     department: req.body.department,
     name: req.body.name,
     description: req.body.description,
@@ -331,7 +331,7 @@ const updateAdminCourse = async (req, res) => {
     return res.status(400).json({ Errors: errors.array() });
   }
   const newCourse = {
-    code: req.body.code,
+    code: req.body.code.toUpperCase(),
     department: req.body.department,
     name: req.body.name,
     description: req.body.description,
@@ -368,7 +368,7 @@ const updateUserCourse = async (req, res) => {
   }
   const newCourse = {
     author: `${userEmail}`,
-    code: req.body.code,
+    code: req.body.code.toUpperCase(),
     department: req.body.department,
     name: req.body.name,
     description: req.body.description,

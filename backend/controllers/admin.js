@@ -110,15 +110,6 @@ const verifyReview = async (req, res) => {
   }
 };
 
-// // delete all data from this user! (reference shall be email)
-// const banVerifiedUser = async (req, res) => {
-//   const userEmail = req.oidc.user.email;
-//   const isAdmin = await admin.isAdmin(userEmail);
-//   if (!isAdmin) {
-//     return res.status(400).json('Bad Request');
-//   }
-// };
-
 // delete a review by its ID
 const removeReview = async (req, res) => {
   const userEmail = req.oidc.user.email;

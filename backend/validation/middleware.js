@@ -44,15 +44,15 @@ const validateCourse = (req, res, next) => {
 };
 
 /* For validating tracker creation */
-const validateTracker = (req, res, next) => {
+const validateReview = (req, res, next) => {
   const validationRule = {
-    user_email: 'required|email',
+    // user_email: 'required|email',
     school: 'required|string|min:3|max:100',
-    course_code: 'required|string|min:3|max:10',
+    code: 'required|string|min:3|max:10',
     grade: 'required|string',
     tags: 'required',
     review: 'required|string|min:10|max:500',
-    verified: 'required|string|min:3|max:5'
+    // verified: 'required|string|min:3|max:5'
   };
   validator(req.body, validationRule, {}, (err, status) => {
     if (!status) {
@@ -95,7 +95,7 @@ const validateUser = (req, res, next) => {
 module.exports = {
   validateSchool,
   validateCourse,
-  validateTracker,
+  validateReview,
   validateUser,
   
 };

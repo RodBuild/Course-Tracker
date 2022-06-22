@@ -84,16 +84,55 @@ const getCurrentUserInvalidReviews = async (req, res) => {
 };
 
 // get all reviews unde a course by course code
-const getReviewsByCourseCode = async (req, res) => {};
+const getReviewsByCourseCode = async (req, res) => {
+  try {
+    mongodb
+      .getDb()
+      .db()
+      .collection('users_reviews')
+      .find({ course_code: req.params.code.toUpperCase() })
+      .toArray((err, result) => {
+        if (result.length === 0) {
+          res.status(404).json(`No data was found`);
+        } else if (err) {
+          res.status(400).json({ message: err });
+        } else {
+          res.setHeader('Content-Type', 'application/json');
+          res.status(200).json(result);
+        }
+      });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
 
 // get other users reviews -> all
-const getReviewsByEmail = async (req, res) => {};
+const getReviewsByEmail = async (req, res) => {
+  try {
+    mongodb
+      .getDb()
+      .db()
+      .collection('users_reviews')
+      .find({ email: req.params.email.toLowerCase() })
+      .toArray((err, result) => {
+        if (result.length === 0) {
+          res.status(404).json(`No data was found`);
+        } else if (err) {
+          res.status(400).json({ message: err });
+        } else {
+          res.setHeader('Content-Type', 'application/json');
+          res.status(200).json(result);
+        }
+      });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
 
 // TODO: POST, PUT, DELETE - LATER
 // is it up to the front end to pass a valid course code
 // every new review is marked as unverified
 // NO ADMINS!
-// STILL NEED TO CHECK if EXISTS!! ADMIN.JS tool
 const createReview = async (req, res) => {
   const userEmail = req.oidc.user.email;
   const isAdmin = await admin.isAdmin(userEmail);
@@ -104,10 +143,14 @@ const createReview = async (req, res) => {
   if (!errors.isEmpty()) {
     return res.status(400).json({ Errors: errors.array() });
   }
+  const reviewExists = await admin.reviewExists(userEmail, req.body.code);
+  if (reviewExists) {
+    return res.status(400).json('Review already exists');
+  }
   const newReview = {
     email: `${userEmail}`,
     school: req.body.school,
-    course_code: req.body.code,
+    course_code: req.body.code.toUpperCase(),
     grade: req.body.grade,
     tags: req.body.tags,
     review: req.body.review,
@@ -141,7 +184,7 @@ const updateReview = async (req, res) => {
   const newReview = {
     email: `${userEmail}`,
     school: req.body.school,
-    course_code: req.body.code,
+    course_code: req.body.code.toUpperCase(),
     grade: req.body.grade,
     tags: req.body.tags,
     review: req.body.review,

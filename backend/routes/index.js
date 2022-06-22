@@ -12,7 +12,9 @@ const { route } = require('./schools');
     Courses -> routes -> controllers -> validation
     Admin -> PROBABLY DONE?
     Reviews -> routes -> controllers -> needs validation
-    SWAGGER.JSON
+    
+    ONLY THING LEFT:
+        SWAGGER.JSON
 */
 
 /* API requests */

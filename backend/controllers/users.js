@@ -44,7 +44,7 @@ const getAnotherUserDataByEmail = async (req, res) => {
       .getDb()
       .db()
       .collection('users_data')
-      .find({ school_email: req.params.email })
+      .find({ school_email: req.params.email.toLowerCase() })
       .toArray((err, result) => {
         if (result.length === 0) {
           res.setHeader('Content-Type', 'application/json');
