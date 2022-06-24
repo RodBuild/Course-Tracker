@@ -4,5 +4,6 @@ notes.txt
 .prettierrc
 JSON example
 swagger/swagger.js
+swagger/swagger.json
 swagger/swagger-auto.json
 package-lock.json

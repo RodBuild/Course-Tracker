@@ -4,8 +4,8 @@ const mongodb = require('./database/connect');
 const bodyParser = require('body-parser');
 const { auth, requiresAuth } = require('express-openid-connect'); // AUTHH0
 const swaggerUi = require('swagger-ui-express');
-const swaggerDocumentAuto = require('./swagger/swagger-auto.json');
-// const swaggerDocument = require('./swagger/swagger.json');
+//const swaggerDocumentAuto = require('./swagger/swagger-auto.json');
+ const swaggerDocument = require('./swagger/swagger.json');
 
 const port = process.env.PORT || 3000;
 const app = express();
@@ -28,8 +28,8 @@ app
   .use('/', require('./routes'))
 
   /* SWAGGER documentation*/
-  .use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocumentAuto));
-// app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
+ // .use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocumentAuto));
+ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 
 
 // to catch errors through the program
