@@ -1,0 +1,1226 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "Course Tracker API",
+        "description": "API to retrieve data for the Course Tracker Web App."
+    },
+    "host": "localhost:3000",
+    "basePath": "",
+    "tags": [{
+            "name": "Schools",
+            "description": "This sections contains all the available requests for the school data"
+        },
+        {
+            "name": "Courses",
+            "description": "This sections contains all the available requests for the courses data"
+        },
+        {
+            "name": "Reviews",
+            "description": "This sections contains all the available requests for the reviews data"
+        },
+        {
+            "name": "Users",
+            "description": "This sections contains all the available requests for the users data"
+        },
+        {
+            "name": "Admin",
+            "description": "This sections would give special requests to users that are admins."
+        }
+    ],
+    "schemes": [
+        "http",
+        "https"
+    ],
+    "securityDefinitions": {},
+    "paths": {
+        "/schools/": {
+            "get": {
+                "tags": ["Schools"],
+                "summary": "Get all available schools",
+                "description": "",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            },
+            "post": {
+                "tags": ["Schools"],
+                "summary": "Post a new school",
+                "description": "",
+                "parameters": [{
+                    "name": "body",
+                    "in": "body",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "example": "any"
+                            },
+                            "city": {
+                                "example": "any"
+                            },
+                            "state": {
+                                "example": "any"
+                            },
+                            "description": {
+                                "example": "any"
+                            }
+                        }
+                    }
+                }],
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "412": {
+                        "description": "Precondition Failed"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/schools/{id}": {
+            "get": {
+                "tags": ["Schools"],
+                "summary": "Get school by id",
+                "description": "",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "put": {
+                "tags": ["Schools"],
+                "summary": "Update an school by id",
+                "description": "",
+                "parameters": [{
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "name": {
+                                    "example": "any"
+                                },
+                                "city": {
+                                    "example": "any"
+                                },
+                                "state": {
+                                    "example": "any"
+                                },
+                                "description": {
+                                    "example": "any"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "412": {
+                        "description": "Precondition Failed"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            },
+            "delete": {
+                "tags": ["Schools"],
+                "summary": "Delete a school by id",
+                "description": "",
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "412": {
+                        "description": "Precondition Failed"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/users/": {
+            "get": {
+                "tags": ["Users"],
+                "summary": "Get current user's personal data",
+                "description": "REQUIRES TO BE LOGGED IN. If no data exists for the currently logged in user, make a post request",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            },
+            "post": {
+                "tags": ["Users"],
+                "summary": "Create current user's personal data",
+                "description": "REQUIRES TO BE LOGGED IN. Creates data for the currently logged in user; if data already exists, make a put request to update data",
+                "parameters": [{
+                    "name": "body",
+                    "in": "body",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "fname": {
+                                "example": "Johnny"
+                            },
+                            "lname": {
+                                "example": "Dohnny"
+                            },
+                            "major": {
+                                "example": "Computer Science"
+                            },
+                            "school": {
+                                "example": "Brigham Young University - Idaho"
+                            },
+                            "school_id": {
+                                "example": "\"1234567890\""
+                            }
+                        }
+                    }
+                }],
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "412": {
+                        "description": "Precondition Failed"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            },
+            "put": {
+                "tags": ["Users"],
+                "summary": "Update current user's personal data",
+                "description": "REQUIRES TO BE LOGGED IN.",
+                "parameters": [{
+                    "name": "body",
+                    "in": "body",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "fname": {
+                                "example": "Johnny"
+                            },
+                            "lname": {
+                                "example": "Dohnny"
+                            },
+                            "major": {
+                                "example": "Computer Science"
+                            },
+                            "school": {
+                                "example": "Brigham Young University - Idaho"
+                            },
+                            "school_id": {
+                                "example": "\"1234567890\""
+                            }
+                        }
+                    }
+                }],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "412": {
+                        "description": "Precondition Failed"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/users/{email}": {
+            "get": {
+                "tags": ["Users"],
+                "summary": "Get other user's data by email",
+                "description": "REQUIRES TO BE LOGGED IN.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [{
+                    "name": "email",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/users/{id}": {
+            "delete": {
+                "tags": ["Users"],
+                "summary": "Delete data of a user by id",
+                "description": "[ADMIN] REQUIRES TO BE LOGGED IN.",
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/courses/valid": {
+            "get": {
+                "description": "",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/courses/valid/{id}": {
+            "get": {
+                "description": "",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/courses/valid/code/{code}": {
+            "get": {
+                "description": "",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [{
+                    "name": "code",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/courses/valid/school/{school}": {
+            "get": {
+                "description": "",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [{
+                    "name": "school",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/courses/valid/department/{department}": {
+            "get": {
+                "description": "",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [{
+                    "name": "department",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/courses/invalid": {
+            "get": {
+                "description": "",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/courses/invalid/code/{code}": {
+            "get": {
+                "description": "",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [{
+                    "name": "code",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/courses/invalid/{email}": {
+            "get": {
+                "description": "",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [{
+                    "name": "email",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/courses/invalid/user": {
+            "get": {
+                "description": "",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            },
+            "post": {
+                "description": "",
+                "parameters": [{
+                    "name": "body",
+                    "in": "body",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "code": {
+                                "example": "any"
+                            },
+                            "department": {
+                                "example": "any"
+                            },
+                            "name": {
+                                "example": "any"
+                            },
+                            "description": {
+                                "example": "any"
+                            },
+                            "credits": {
+                                "example": "any"
+                            },
+                            "school": {
+                                "example": "any"
+                            }
+                        }
+                    }
+                }],
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "412": {
+                        "description": "Precondition Failed"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/courses/valid/admin": {
+            "post": {
+                "description": "",
+                "parameters": [{
+                    "name": "body",
+                    "in": "body",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "code": {
+                                "example": "any"
+                            },
+                            "department": {
+                                "example": "any"
+                            },
+                            "name": {
+                                "example": "any"
+                            },
+                            "description": {
+                                "example": "any"
+                            },
+                            "credits": {
+                                "example": "any"
+                            },
+                            "school": {
+                                "example": "any"
+                            }
+                        }
+                    }
+                }],
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "412": {
+                        "description": "Precondition Failed"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/courses/valid/admin/{code}": {
+            "put": {
+                "description": "",
+                "parameters": [{
+                        "name": "code",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "code": {
+                                    "example": "any"
+                                },
+                                "department": {
+                                    "example": "any"
+                                },
+                                "name": {
+                                    "example": "any"
+                                },
+                                "description": {
+                                    "example": "any"
+                                },
+                                "credits": {
+                                    "example": "any"
+                                },
+                                "school": {
+                                    "example": "any"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "412": {
+                        "description": "Precondition Failed"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            },
+            "delete": {
+                "description": "",
+                "parameters": [{
+                    "name": "code",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/courses/invalid/user/{code}": {
+            "put": {
+                "description": "",
+                "parameters": [{
+                        "name": "code",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "code": {
+                                    "example": "any"
+                                },
+                                "department": {
+                                    "example": "any"
+                                },
+                                "name": {
+                                    "example": "any"
+                                },
+                                "description": {
+                                    "example": "any"
+                                },
+                                "credits": {
+                                    "example": "any"
+                                },
+                                "school": {
+                                    "example": "any"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "412": {
+                        "description": "Precondition Failed"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            },
+            "delete": {
+                "description": "",
+                "parameters": [{
+                    "name": "code",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/admin/invalid-users": {
+            "get": {
+                "description": "",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/admin/valid-users": {
+            "get": {
+                "description": "",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/admin/verify-user/{email}": {
+            "put": {
+                "description": "",
+                "parameters": [{
+                    "name": "email",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/admin/verify-review/{id}": {
+            "put": {
+                "description": "",
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/admin/delete-review/{id}": {
+            "delete": {
+                "description": "",
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/admin/ban-user/{email}": {
+            "post": {
+                "description": "",
+                "parameters": [{
+                        "name": "email",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "reason": {
+                                    "example": "any"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "409": {
+                        "description": "Conflict"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/reviews/valid": {
+            "get": {
+                "description": "",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/reviews/invalid": {
+            "get": {
+                "description": "",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/reviews/user-valid": {
+            "get": {
+                "description": "",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/reviews/user-invalid": {
+            "get": {
+                "description": "",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/reviews/code/{code}": {
+            "get": {
+                "description": "",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [{
+                    "name": "code",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/reviews/email/{email}": {
+            "get": {
+                "description": "",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [{
+                    "name": "email",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/reviews/new-review/": {
+            "post": {
+                "description": "",
+                "parameters": [{
+                    "name": "body",
+                    "in": "body",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "code": {
+                                "example": "any"
+                            },
+                            "school": {
+                                "example": "any"
+                            },
+                            "grade": {
+                                "example": "any"
+                            },
+                            "tags": {
+                                "example": "any"
+                            },
+                            "review": {
+                                "example": "any"
+                            }
+                        }
+                    }
+                }],
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "412": {
+                        "description": "Precondition Failed"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/reviews/update-review/{code}": {
+            "put": {
+                "description": "",
+                "parameters": [{
+                        "name": "code",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "school": {
+                                    "example": "any"
+                                },
+                                "code": {
+                                    "example": "any"
+                                },
+                                "grade": {
+                                    "example": "any"
+                                },
+                                "tags": {
+                                    "example": "any"
+                                },
+                                "review": {
+                                    "example": "any"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/reviews/delete-review/{code}": {
+            "delete": {
+                "description": "",
+                "parameters": [{
+                    "name": "code",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        }
+    }
+}
