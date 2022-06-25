@@ -15,7 +15,8 @@ const config = {
   authRequired: false,
   auth0Logout: true,
   secret: process.env.SECRET,
-  baseURL: process.env.BASE_URL_TEST,
+  baseURL: process.env.BASE_URL,
+  //baseURL: process.env.BASE_URL_TEST,
   clientID: process.env.CLIENT_ID,
   issuerBaseURL: process.env.ISSUER_BASE_URL
 };
@@ -25,12 +26,11 @@ app
   /* AUTH0 validation */
   .use(auth(config))
   .use(bodyParser.json())
-  .use('/', require('./routes'))
+  .use('/', require('./routes'));
 
-  /* SWAGGER documentation*/
-  // .use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocumentAuto));
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
-
+/* SWAGGER documentation*/
+// .use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocumentAuto));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // to catch errors through the program
 process.on('uncaughtException', (err, origin) => {
