@@ -29,7 +29,7 @@
         }
     ],
     "schemes": [
-        "https"
+        "http"
     ],
     "securityDefinitions": {},
     "paths": {
@@ -37,7 +37,7 @@
             "get": {
                 "tags": ["Schools"],
                 "summary": "Get all available schools",
-                "description": "",
+                "description": "Get request to the database; returns all available schools.\nLogged in: No\nAdmin: No",
                 "produces": [
                     "application/json"
                 ],
@@ -59,25 +59,27 @@
             },
             "post": {
                 "tags": ["Schools"],
-                "summary": "Post a new school",
-                "description": "",
+                "summary": "Request to add a new school",
+                "description": "Post request to the database; create a new school.\nLogged in: Yes\nAdmin: Yes",
                 "parameters": [{
+                    "description": "The following JSON body is an example for the correct way of posting a new school",
+                    "required": "true",
                     "name": "body",
                     "in": "body",
                     "schema": {
                         "type": "object",
                         "properties": {
                             "name": {
-                                "example": "any"
+                                "example": "Brigham Young University - California"
                             },
                             "city": {
-                                "example": "any"
+                                "example": "Clearlake"
                             },
                             "state": {
-                                "example": "any"
+                                "example": "California"
                             },
                             "description": {
-                                "example": "any"
+                                "example": "This is an example description...."
                             }
                         }
                     }
@@ -102,11 +104,12 @@
             "get": {
                 "tags": ["Schools"],
                 "summary": "Get school by id",
-                "description": "",
+                "description": "Get request to the database; returns a single school, if found.\nLogged in: No\nAdmin: No",
                 "produces": [
                     "application/json"
                 ],
                 "parameters": [{
+                    "description": "Pass a valid ID",
                     "name": "id",
                     "in": "path",
                     "required": true,
@@ -126,9 +129,10 @@
             },
             "put": {
                 "tags": ["Schools"],
-                "summary": "Update an school by id",
-                "description": "",
+                "summary": "Update a school by id",
+                "description": "Put request to the database; updates a single school, if found.\nLogged in: Yes\nAdmin: Yes",
                 "parameters": [{
+                        "description": "Pass a valid ID",
                         "name": "id",
                         "in": "path",
                         "required": true,
@@ -141,16 +145,16 @@
                             "type": "object",
                             "properties": {
                                 "name": {
-                                    "example": "any"
+                                    "example": "Brigham Young University - California"
                                 },
                                 "city": {
-                                    "example": "any"
+                                    "example": "Clearlake"
                                 },
                                 "state": {
-                                    "example": "any"
+                                    "example": "California"
                                 },
                                 "description": {
-                                    "example": "any"
+                                    "example": "This is an example description...."
                                 }
                             }
                         }
@@ -173,9 +177,10 @@
             },
             "delete": {
                 "tags": ["Schools"],
-                "summary": "Delete a school by id",
-                "description": "",
+                "summary": "Remove a school by id",
+                "description": "Delete request to the database; removes a single school, if found.\nLogged in: Yes\nAdmin: Yes",
                 "parameters": [{
+                    "description": "Pass a valid ID",
                     "name": "id",
                     "in": "path",
                     "required": true,
@@ -200,8 +205,8 @@
         "/users/": {
             "get": {
                 "tags": ["Users"],
-                "summary": "Get current user's personal data",
-                "description": "REQUIRES TO BE LOGGED IN. If no data exists for the currently logged in user, make a post request",
+                "summary": "Get data of currently logged in user",
+                "description": "Get request to the database; returns data of logged in user. If no data found, use post request.\nLogged in: Yes\nAdmin: No",
                 "produces": [
                     "application/json"
                 ],
@@ -223,25 +228,26 @@
             },
             "post": {
                 "tags": ["Users"],
-                "summary": "Create current user's personal data",
-                "description": "REQUIRES TO BE LOGGED IN. Creates data for the currently logged in user; if data already exists, make a put request to update data",
+                "summary": "Create data for currently logged in user",
+                "description": "Post request to the database; creates data for logged in user.\nLogged in: Yes\nAdmin: No",
                 "parameters": [{
+                    "description": "The following JSON body is an example for the correct way of posting a user data",
                     "name": "body",
                     "in": "body",
                     "schema": {
                         "type": "object",
                         "properties": {
                             "fname": {
-                                "example": "Johnny"
+                                "example": "John"
                             },
                             "lname": {
-                                "example": "Dohnny"
+                                "example": "Doe"
                             },
                             "major": {
                                 "example": "Computer Science"
                             },
                             "school": {
-                                "example": "Brigham Young University - Idaho"
+                                "example": "Brigham Young University"
                             },
                             "school_id": {
                                 "example": "\"1234567890\""
@@ -266,25 +272,26 @@
             },
             "put": {
                 "tags": ["Users"],
-                "summary": "Update current user's personal data",
-                "description": "REQUIRES TO BE LOGGED IN.",
+                "summary": "Update data for currently logged in user",
+                "description": "Put request to the database; updates data for logged in user.\nLogged in: Yes\nAdmin: No",
                 "parameters": [{
+                    "description": "The following JSON body is an example for the correct way of posting a user data",
                     "name": "body",
                     "in": "body",
                     "schema": {
                         "type": "object",
                         "properties": {
                             "fname": {
-                                "example": "Johnny"
+                                "example": "John"
                             },
                             "lname": {
-                                "example": "Dohnny"
+                                "example": "Doe"
                             },
                             "major": {
                                 "example": "Computer Science"
                             },
                             "school": {
-                                "example": "Brigham Young University - Idaho"
+                                "example": "Brigham Young University"
                             },
                             "school_id": {
                                 "example": "\"1234567890\""
@@ -311,12 +318,13 @@
         "/users/{email}": {
             "get": {
                 "tags": ["Users"],
-                "summary": "Get other user's data by email",
-                "description": "REQUIRES TO BE LOGGED IN.",
+                "summary": "Get data from other user by email",
+                "description": "Get request to the database; retrieves data from another user.\nLogged in: Yes\nAdmin: No",
                 "produces": [
                     "application/json"
                 ],
                 "parameters": [{
+                    "description": "Pass a valid email format",
                     "name": "email",
                     "in": "path",
                     "required": true,
@@ -341,9 +349,10 @@
         "/users/{id}": {
             "delete": {
                 "tags": ["Users"],
-                "summary": "Delete data of a user by id",
-                "description": "[ADMIN] REQUIRES TO BE LOGGED IN.",
+                "summary": "Remove user data by id",
+                "description": "Delete request to the database; removes data from a specific user.\nLogged in: Yes\nAdmin: Yes",
                 "parameters": [{
+                    "description": "Pass a valid ID",
                     "name": "id",
                     "in": "path",
                     "required": true,
@@ -364,7 +373,9 @@
         },
         "/courses/valid": {
             "get": {
-                "description": "",
+                "tags": ["Courses"],
+                "summary": "Get all valid courses",
+                "description": "Get request to the database; returns all verified courses.\nLogged in: No\nAdmin: No",
                 "produces": [
                     "application/json"
                 ],
@@ -387,11 +398,14 @@
         },
         "/courses/valid/{id}": {
             "get": {
-                "description": "",
+                "tags": ["Courses"],
+                "summary": "Get a valid course by id",
+                "description": "Get request to the database; returns a verified course.\nLogged in: No\nAdmin: No",
                 "produces": [
                     "application/json"
                 ],
                 "parameters": [{
+                    "description": "Pass a valid ID",
                     "name": "id",
                     "in": "path",
                     "required": true,
@@ -412,11 +426,14 @@
         },
         "/courses/valid/code/{code}": {
             "get": {
-                "description": "",
+                "tags": ["Courses"],
+                "summary": "Get all valid courses by course code",
+                "description": "Get request to the database; returns verified courses.\nLogged in: No\nAdmin: No",
                 "produces": [
                     "application/json"
                 ],
                 "parameters": [{
+                    "description": "Course codes are capitalized",
                     "name": "code",
                     "in": "path",
                     "required": true,
@@ -440,15 +457,24 @@
         },
         "/courses/valid/school/{school}": {
             "get": {
-                "description": "",
+                "tags": ["Courses"],
+                "summary": "Get all valid courses by school name",
+                "description": "Get request to the database; returns verified courses.\nLogged in: No\nAdmin: No",
                 "produces": [
                     "application/json"
                 ],
                 "parameters": [{
+                    "description": "The following are the available schools. Case sensitive",
                     "name": "school",
                     "in": "path",
                     "required": true,
-                    "type": "string"
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "enum": ["Brigham Young University", "Brigham Young University - Idaho", "Brigham Young University - Hawaii"],
+                        "default": "Brigham Young University"
+                    },
+                    "collectionFormat": "multi"
                 }],
                 "responses": {
                     "200": {
@@ -468,15 +494,24 @@
         },
         "/courses/valid/department/{department}": {
             "get": {
-                "description": "",
+                "tags": ["Courses"],
+                "summary": "Get all valid courses by department name",
+                "description": "Get request to the database; returns verified courses.\nLogged in: No\nAdmin: No",
                 "produces": [
                     "application/json"
                 ],
                 "parameters": [{
+                    "description": "Few examples of available departments. Case sensitive",
                     "name": "department",
                     "in": "path",
                     "required": true,
-                    "type": "string"
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "enum": ["Computer Science", "Biology", "Accountancy", "Art"],
+                        "default": "Computer Science"
+                    },
+                    "collectionFormat": "multi"
                 }],
                 "responses": {
                     "200": {
@@ -496,7 +531,9 @@
         },
         "/courses/invalid": {
             "get": {
-                "description": "",
+                "tags": ["Courses"],
+                "summary": "Get all invalid courses",
+                "description": "Get request to the database; returns unverified courses.\nLogged in: No\nAdmin: No",
                 "produces": [
                     "application/json"
                 ],
@@ -516,11 +553,14 @@
         },
         "/courses/invalid/code/{code}": {
             "get": {
-                "description": "",
+                "tags": ["Courses"],
+                "summary": "Get all invalid courses by course code",
+                "description": "Get request to the database; returns unverified courses.\nLogged in: No\nAdmin: No",
                 "produces": [
                     "application/json"
                 ],
                 "parameters": [{
+                    "description": "Course codes are capitalized",
                     "name": "code",
                     "in": "path",
                     "required": true,
@@ -544,11 +584,14 @@
         },
         "/courses/invalid/{email}": {
             "get": {
-                "description": "",
+                "tags": ["Courses"],
+                "summary": "Get all invalid courses by author's email",
+                "description": "Get request to the database; returns unverified courses.\nLogged in: No\nAdmin: No",
                 "produces": [
                     "application/json"
                 ],
                 "parameters": [{
+                    "description": "Pass a valid email format",
                     "name": "email",
                     "in": "path",
                     "required": true,
@@ -572,7 +615,9 @@
         },
         "/courses/invalid/user": {
             "get": {
-                "description": "",
+                "tags": ["Courses"],
+                "summary": "Get all invalid courses created by currently logged in user",
+                "description": "Get request to the database; returns unverified courses.\nLogged in: Yes\nAdmin: No",
                 "produces": [
                     "application/json"
                 ],
@@ -593,30 +638,33 @@
                 }
             },
             "post": {
-                "description": "",
+                "tags": ["Courses"],
+                "summary": "Currently logged in user creates an unverified course",
+                "description": "Post request to the database; creates an unverified course.\nLogged in: Yes\nAdmin: No",
                 "parameters": [{
+                    "description": "The following JSON body is an example for the correct way of posting a new course",
                     "name": "body",
                     "in": "body",
                     "schema": {
                         "type": "object",
                         "properties": {
                             "code": {
-                                "example": "any"
+                                "example": "WDD330"
                             },
                             "department": {
-                                "example": "any"
+                                "example": "Computer Science"
                             },
                             "name": {
-                                "example": "any"
+                                "example": "Web Fronted Development II"
                             },
                             "description": {
-                                "example": "any"
+                                "example": "This is an example description...."
                             },
                             "credits": {
-                                "example": "any"
+                                "example": "\"3\""
                             },
                             "school": {
-                                "example": "any"
+                                "example": "Brigham Young University - Idaho"
                             }
                         }
                     }
@@ -639,30 +687,33 @@
         },
         "/courses/valid/admin": {
             "post": {
-                "description": "",
+                "tags": ["Courses"],
+                "summary": "Currently logged in user (Admin) creates a verified course",
+                "description": "Post request to the database; creates a verified course.\nLogged in: Yes\nAdmin: Yes",
                 "parameters": [{
+                    "description": "The following JSON body is an example for the correct way of posting a new course",
                     "name": "body",
                     "in": "body",
                     "schema": {
                         "type": "object",
                         "properties": {
                             "code": {
-                                "example": "any"
+                                "example": "WDD330"
                             },
                             "department": {
-                                "example": "any"
+                                "example": "Computer Science"
                             },
                             "name": {
-                                "example": "any"
+                                "example": "Web Fronted Development II"
                             },
                             "description": {
-                                "example": "any"
+                                "example": "This is an example description...."
                             },
                             "credits": {
-                                "example": "any"
+                                "example": "\"3\""
                             },
                             "school": {
-                                "example": "any"
+                                "example": "Brigham Young University - Idaho"
                             }
                         }
                     }
@@ -685,8 +736,11 @@
         },
         "/courses/valid/admin/{code}": {
             "put": {
-                "description": "",
+                "tags": ["Courses"],
+                "summary": "Currently logged in user (Admin) updates a verified course",
+                "description": "Update request to the database; modifies a verified course.\nLogged in: Yes\nAdmin: Yes",
                 "parameters": [{
+                        "description": "Course codes are capitalized\nThe following JSON body is an example for the correct way of posting a new course",
                         "name": "code",
                         "in": "path",
                         "required": true,
@@ -699,22 +753,22 @@
                             "type": "object",
                             "properties": {
                                 "code": {
-                                    "example": "any"
+                                    "example": "WDD330"
                                 },
                                 "department": {
-                                    "example": "any"
+                                    "example": "Computer Science"
                                 },
                                 "name": {
-                                    "example": "any"
+                                    "example": "Web Fronted Development II"
                                 },
                                 "description": {
-                                    "example": "any"
+                                    "example": "This is an example description...."
                                 },
                                 "credits": {
-                                    "example": "any"
+                                    "example": "\"3\""
                                 },
                                 "school": {
-                                    "example": "any"
+                                    "example": "Brigham Young University - Idaho"
                                 }
                             }
                         }
@@ -736,8 +790,11 @@
                 }
             },
             "delete": {
-                "description": "",
+                "tags": ["Courses"],
+                "summary": "Currently logged in user (Admin) deletes a verified course",
+                "description": "Delete request to the database; removes a verified course.\nLogged in: Yes\nAdmin: Yes",
                 "parameters": [{
+                    "description": "Course codes are capitalized",
                     "name": "code",
                     "in": "path",
                     "required": true,
@@ -758,8 +815,11 @@
         },
         "/courses/invalid/user/{code}": {
             "put": {
-                "description": "",
+                "tags": ["Courses"],
+                "summary": "Currently logged in user updates one of its unverified courses",
+                "description": "Update request to the database; modifies an unverified course.\nLogged in: Yes\nAdmin: No",
                 "parameters": [{
+                        "description": "Course codes are capitalized\nThe following JSON body is an example for the correct way of posting a new course",
                         "name": "code",
                         "in": "path",
                         "required": true,
@@ -772,22 +832,22 @@
                             "type": "object",
                             "properties": {
                                 "code": {
-                                    "example": "any"
+                                    "example": "WDD330"
                                 },
                                 "department": {
-                                    "example": "any"
+                                    "example": "Computer Science"
                                 },
                                 "name": {
-                                    "example": "any"
+                                    "example": "Web Fronted Development II"
                                 },
                                 "description": {
-                                    "example": "any"
+                                    "example": "This is an example description...."
                                 },
                                 "credits": {
-                                    "example": "any"
+                                    "example": "\"3\""
                                 },
                                 "school": {
-                                    "example": "any"
+                                    "example": "Brigham Young University - Idaho"
                                 }
                             }
                         }
@@ -809,8 +869,11 @@
                 }
             },
             "delete": {
-                "description": "",
+                "tags": ["Courses"],
+                "summary": "Currently logged in user deletes one of its unverified courses",
+                "description": "Delete request to the database; removes an unverified course.\nLogged in: Yes\nAdmin: No",
                 "parameters": [{
+                    "description": "Course codes are capitalized",
                     "name": "code",
                     "in": "path",
                     "required": true,
@@ -831,7 +894,9 @@
         },
         "/admin/invalid-users": {
             "get": {
-                "description": "",
+                "tags": ["Admin"],
+                "summary": "Get all invalid users",
+                "description": "Get request to the database; returns unverified users.\nLogged in: Yes\nAdmin: Yes",
                 "produces": [
                     "application/json"
                 ],
@@ -851,7 +916,9 @@
         },
         "/admin/valid-users": {
             "get": {
-                "description": "",
+                "tags": ["Admin"],
+                "summary": "Get all valid users",
+                "description": "Get request to the database; returns verified users.\nLogged in: Yes\nAdmin: Yes",
                 "produces": [
                     "application/json"
                 ],
@@ -871,8 +938,11 @@
         },
         "/admin/verify-user/{email}": {
             "put": {
-                "description": "",
+                "tags": ["Admin"],
+                "summary": "Verify a single user",
+                "description": "Put request to the database; update user data to make it be verified.\nLogged in: Yes\nAdmin: Yes",
                 "parameters": [{
+                    "description": "Pass a valid email format",
                     "name": "email",
                     "in": "path",
                     "required": true,
@@ -893,8 +963,11 @@
         },
         "/admin/verify-review/{id}": {
             "put": {
-                "description": "",
+                "tags": ["Admin"],
+                "summary": "Verify a single review",
+                "description": "Put request to the database; update review data to make it be verified.\nLogged in: Yes\nAdmin: Yes",
                 "parameters": [{
+                    "description": "Pass a valid ID",
                     "name": "id",
                     "in": "path",
                     "required": true,
@@ -915,8 +988,11 @@
         },
         "/admin/delete-review/{id}": {
             "delete": {
-                "description": "",
+                "tags": ["Admin"],
+                "summary": "Delete a single review by its id",
+                "description": "Delete request to the database; removes a course review.\nLogged in: Yes\nAdmin: Yes",
                 "parameters": [{
+                    "description": "Pass a valid ID",
                     "name": "id",
                     "in": "path",
                     "required": true,
@@ -935,10 +1011,44 @@
                 }
             }
         },
+        "/admin/verify-course/{id}": {
+            "post": {
+                "tags": ["Admin"],
+                "summary": "Verify a single user created course",
+                "description": "Post request to the database; use ID to get data from unverified course; if course already exists, unverified course gets deleted; else, course gets added to the verified courses collection and removed from the unverified courses collection.\nLogged in: Yes\nAdmin: Yes",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [{
+                    "description": "Pass a valid ID",
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }],
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
         "/admin/ban-user/{email}": {
             "post": {
-                "description": "",
+                "tags": ["Admin"],
+                "summary": "Ban a single user by its email",
+                "description": "Post request to the database; deletes all data related to the users and adds it to a blocklist.\nLogged in: Yes\nAdmin: Yes",
                 "parameters": [{
+                        "description": "Pass a valid email format",
                         "name": "email",
                         "in": "path",
                         "required": true,
@@ -975,7 +1085,9 @@
         },
         "/reviews/valid": {
             "get": {
-                "description": "",
+                "tags": ["Reviews"],
+                "summary": "Get all valid reviews",
+                "description": "Get request to the database; returns verified reviews.\nLogged in: No\nAdmin: No",
                 "produces": [
                     "application/json"
                 ],
@@ -995,7 +1107,9 @@
         },
         "/reviews/invalid": {
             "get": {
-                "description": "",
+                "tags": ["Reviews"],
+                "summary": "Get all invalid reviews",
+                "description": "Get request to the database; returns unverified reviews.\nLogged in: No\nAdmin: No",
                 "produces": [
                     "application/json"
                 ],
@@ -1015,7 +1129,9 @@
         },
         "/reviews/user-valid": {
             "get": {
-                "description": "",
+                "tags": ["Reviews"],
+                "summary": "Get all user's valid reviews",
+                "description": "Get request to the database; returns currently logged in user's verified reviews.\nLogged in: Yes\nAdmin: No",
                 "produces": [
                     "application/json"
                 ],
@@ -1035,7 +1151,9 @@
         },
         "/reviews/user-invalid": {
             "get": {
-                "description": "",
+                "tags": ["Reviews"],
+                "summary": "Get all user's invalid reviews",
+                "description": "Get request to the database; returns currently logged in user's unverified reviews.\nLogged in: Yes\nAdmin: No",
                 "produces": [
                     "application/json"
                 ],
@@ -1055,11 +1173,14 @@
         },
         "/reviews/code/{code}": {
             "get": {
-                "description": "",
+                "tags": ["Reviews"],
+                "summary": "Get all reviews under a course code",
+                "description": "Get request to the database; returns all reviews that match a course code.\nLogged in: No\nAdmin: No",
                 "produces": [
                     "application/json"
                 ],
                 "parameters": [{
+                    "description": "Course codes are capitalized",
                     "name": "code",
                     "in": "path",
                     "required": true,
@@ -1083,11 +1204,14 @@
         },
         "/reviews/email/{email}": {
             "get": {
-                "description": "",
+                "tags": ["Reviews"],
+                "summary": "Get all reviews created by another user, takes and email",
+                "description": "Get request to the database; returns all reviews created by a user with the specified email.\nLogged in: No\nAdmin: No",
                 "produces": [
                     "application/json"
                 ],
                 "parameters": [{
+                    "description": "Pass a valid email format",
                     "name": "email",
                     "in": "path",
                     "required": true,
@@ -1111,27 +1235,30 @@
         },
         "/reviews/new-review/": {
             "post": {
-                "description": "",
+                "tags": ["Reviews"],
+                "summary": "Create a new unverified review",
+                "description": "Post request to the database; creates a new entry for a course review.\nLogged in: Yes\nAdmin: No",
                 "parameters": [{
+                    "description": "The following JSON body is an example for the correct way of posting a new review. Notice the tags is an array, and it SHOULD NOT contain more than THREE elements. Grade can be a float.",
                     "name": "body",
                     "in": "body",
                     "schema": {
                         "type": "object",
                         "properties": {
                             "code": {
-                                "example": "any"
+                                "example": "WDD330"
                             },
                             "school": {
-                                "example": "any"
+                                "example": "Brigham Young University - Idaho"
                             },
                             "grade": {
-                                "example": "any"
+                                "example": "\"95\""
                             },
                             "tags": {
-                                "example": "any"
+                                "example": ["Helpful", "Challenging", "Amazing content"]
                             },
                             "review": {
-                                "example": "any"
+                                "example": "This is an example review...."
                             }
                         }
                     }
@@ -1154,8 +1281,11 @@
         },
         "/reviews/update-review/{code}": {
             "put": {
-                "description": "",
+                "tags": ["Reviews"],
+                "summary": "Update a user's review by its code",
+                "description": "Put request to the database; update the contents of user's review.\nLogged in: Yes\nAdmin: No",
                 "parameters": [{
+                        "description": "Course codes are capitalized",
                         "name": "code",
                         "in": "path",
                         "required": true,
@@ -1167,20 +1297,20 @@
                         "schema": {
                             "type": "object",
                             "properties": {
-                                "school": {
-                                    "example": "any"
-                                },
                                 "code": {
-                                    "example": "any"
+                                    "example": "WDD330"
+                                },
+                                "school": {
+                                    "example": "Brigham Young University - Idaho"
                                 },
                                 "grade": {
-                                    "example": "any"
+                                    "example": "\"95\""
                                 },
                                 "tags": {
-                                    "example": "any"
+                                    "example": ["Helpful", "Challenging", "Amazing content"]
                                 },
                                 "review": {
-                                    "example": "any"
+                                    "example": "This is an example review...."
                                 }
                             }
                         }
@@ -1201,8 +1331,11 @@
         },
         "/reviews/delete-review/{code}": {
             "delete": {
-                "description": "",
+                "tags": ["Reviews"],
+                "summary": "Delete a user's review by its code",
+                "description": "Delete request to the database; remove a single user's review.\nLogged in: Yes\nAdmin: No",
                 "parameters": [{
+                    "description": "Course codes are capitalized",
                     "name": "code",
                     "in": "path",
                     "required": true,
