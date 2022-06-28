@@ -16,7 +16,7 @@ const config = {
   auth0Logout: true,
   secret: process.env.SECRET,
   baseURL: process.env.BASE_URL,
-  //baseURL: process.env.BASE_URL_TEST,
+  // baseURL: process.env.BASE_URL_TEST,
   clientID: process.env.CLIENT_ID,
   issuerBaseURL: process.env.ISSUER_BASE_URL
 };
@@ -29,7 +29,7 @@ app
   .use('/', require('./routes'));
 
 /* SWAGGER documentation*/
-// .use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocumentAuto));
+// app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocumentAuto));
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // to catch errors through the program

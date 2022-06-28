@@ -11,6 +11,7 @@ router.get('/valid-users', controller.getAllVerifiedUsers);
 router.put('/verify-user/:email', controller.verifyUser);
 router.put('/verify-review/:id', controller.verifyReview);
 router.delete('/delete-review/:id', controller.removeReview);
+router.post('/verify-course/:id', controller.verifyCourse);
 router.post('/ban-user/:email', controller.banUser);
 
 router.use('/', async (req, res) => {

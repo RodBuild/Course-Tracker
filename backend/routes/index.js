@@ -15,6 +15,7 @@ const { route } = require('./schools');
     
     ONLY THING LEFT:
         SWAGGER.JSON
+        ADD 401:Unathorized to swagger.json
 */
 
 /* API requests */

@@ -1,11 +1,3 @@
-/* 
-    - view unverified users
-    - view unverified reviews (Tracker)
-    - View banned user
-    - ban user
-    - delete all entries by banned user.
-*/
-/*** Most of this will pass an email param */
 const admin = require('../validation/admin');
 const mongodb = require('../database/connect');
 const ObjectId = require('mongodb').ObjectId;
@@ -81,7 +73,6 @@ const getAllVerifiedUsers = async (req, res) => {
   });
 };
 
-// verify a single entry.
 /*********************************
  * To verify a single review:    *
  *    Takes an id                *
@@ -110,7 +101,10 @@ const verifyReview = async (req, res) => {
   }
 };
 
-// delete a review by its ID
+/*********************************
+ * To delete a single review:    *
+ *    Takes an id                *
+ *********************************/
 const removeReview = async (req, res) => {
   const userEmail = req.oidc.user.email;
   const isAdmin = await admin.isAdmin(userEmail);
@@ -133,26 +127,74 @@ const removeReview = async (req, res) => {
   }
 };
 
-// Verify course?? - Wouldn't it be better to do it by hand???
+// essentially, use id to find unverified course
+// copy contents of unverified course to a new item
+// post new item to verified course collection
+// delete unverified course
+/*********************************
+ * To verify a single course:    *
+ *    Takes an id, adds and      *
+ *    removes a course           *
+ *********************************/
 const verifyCourse = async (req, res) => {
-  //take an id,
-  //look into unverified courses
-  // mathc with id and copy contents into a new dictionary object
-  //insert new dict object into courses
-  // return some response
+  const userEmail = req.oidc.user.email;
+  const isAdmin = await admin.isAdmin(userEmail);
+  if (!isAdmin) {
+    return res.status(400).json('Bad Request');
+  }
+  if (!ObjectId.isValid(req.params.id)) {
+    return res.status(400).json('Must pass a valid ID');
+  }
+  const reviewId = new ObjectId(req.params.id);
+  const response = await mongodb
+    .getDb()
+    .db()
+    .collection('courses_unverified')
+    .find({ _id: reviewId });
+  response.toArray(async (err, item) => {
+    if (item.length === 0) {
+      res.setHeader('Content-Type', 'application/json');
+      res.status(404).json('No data was found');
+    } else if (err) {
+      res.status(400).json({ message: err });
+    } else {
+      // use unverified course to create a verified review...
+      const data = item[0];
+      // check if unverified course already exists
+      const courseExists = await admin.courseValidExists(data.code);
+      if (courseExists) {
+        await mongodb.getDb().db().collection('courses_unverified').deleteOne({ _id: reviewId });
+        return res.status(400).json('Course already exists. Unverified course was removed.');
+      }
+      // create new course
+      const newCourse = {
+        code: data.code.toUpperCase(),
+        department: data.department,
+        name: data.name,
+        description: data.description,
+        credits: data.credits,
+        school: data.school
+      };
+      // use newCourse to create a new valid course
+      const response = await mongodb.getDb().db().collection('courses').insertOne(newCourse);
+      if (response.acknowledged) {
+        await mongodb.getDb().db().collection('courses_unverified').deleteMany({ _id: reviewId });
+        res.status(201).json(`Success. Course added to the official collection. Course removed from the unverified collection.`);
+      } else {
+        res
+          .status(500)
+          .json(response.error || `Something went wrong while attempting to verify a course.`);
+      }
+    }
+  });
 };
 
-//
-// const
-
-/*****************************
- * To get all ban a user:    *
- *    Takes an email,        *
- *    removes all data       *
- *    related to the user,   *
- *    still need to ban on   *
- *    Auht0.com              *
- *****************************/
+/***********************************************
+ * To ban a user for inappropiate behavior:    *
+ *    Takes an email, removes all data related *
+ *    to the user, still need to ban on        *
+ *    Auht0.com                                *
+ ***********************************************/
 const banUser = async (req, res) => {
   const emailToBan = req.params.email;
   const userEmail = req.oidc.user.email;
@@ -221,5 +263,6 @@ module.exports = {
   verifyUser,
   verifyReview,
   removeReview,
+  verifyCourse,
   banUser
 };

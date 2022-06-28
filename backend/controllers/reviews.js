@@ -5,6 +5,10 @@ const { validationResult } = require('express-validator');
 // get reviews by course code
 // essentially, reviews are "attached" to one course
 
+/********************************
+ * To get all valid reviews:    *
+ *    Takes no params           *
+ ********************************/
 const getAllVerifiedReviews = async (req, res) => {
   const data = await mongodb.getDb().db().collection('users_reviews').find({ verified: 'true' });
   data.toArray((err, lists) => {
@@ -20,6 +24,10 @@ const getAllVerifiedReviews = async (req, res) => {
   });
 };
 
+/**********************************
+ * To get all invalid reviews:    *
+ *    Takes no params             *
+ **********************************/
 const getAllUnverifiedReviews = async (req, res) => {
   const data = await mongodb.getDb().db().collection('users_reviews').find({ verified: 'false' });
   data.toArray((err, lists) => {
@@ -35,6 +43,10 @@ const getAllUnverifiedReviews = async (req, res) => {
   });
 };
 
+/************************************************
+ * To get all valid reviews of current user:    *
+ *    Takes no params                           *
+ ************************************************/
 const getCurrentUserValidReviews = async (req, res) => {
   const userEmail = req.oidc.user.email;
   const isAdmin = await admin.isAdmin(userEmail);
@@ -59,6 +71,10 @@ const getCurrentUserValidReviews = async (req, res) => {
   });
 };
 
+/**************************************************
+ * To get all invalid reviews of current user:    *
+ *    Takes no params                             *
+ **************************************************/
 const getCurrentUserInvalidReviews = async (req, res) => {
   const userEmail = req.oidc.user.email;
   const isAdmin = await admin.isAdmin(userEmail);
