@@ -5,7 +5,7 @@
         "title": "Course Tracker API",
         "description": "API to retrieve data for the Course Tracker Web App."
     },
-    "host": "localhost:3000",
+    "host": "course-tracker-byu.herokuapp.com",
     "basePath": "",
     "tags": [{
             "name": "Schools",
