@@ -1,4 +1,4 @@
-var axios = require('axios').default;
+const cors = require('cors');
 const express = require('express');
 const mongodb = require('./database/connect');
 const bodyParser = require('body-parser');
@@ -26,6 +26,18 @@ app
   /* AUTH0 validation */
   .use(auth(config))
   .use(bodyParser.json())
+  .use(cors())
+  .use((req, res, next) => {
+    // Change * to specific websites if so desired
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader(
+      'Access-Control-Allow-Headers',
+      'Origin, X-Requested-With, Content-Type, Accept, Z-Key'
+    );
+    res.setHeader('Content-Type', 'application/json');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    next();
+  })
   .use('/', require('./routes'));
 
 /* SWAGGER documentation*/
