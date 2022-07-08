@@ -5,7 +5,7 @@ const mongodb = require('./database/connect');
 const bodyParser = require('body-parser');
 const { auth, requiresAuth } = require('express-openid-connect'); // AUTHH0
 const swaggerUi = require('swagger-ui-express');
-// const swaggerDocumentAuto = require('./swagger/swagger-auto.json');
+const swaggerDocumentAuto = require('./swagger/swagger-auto.json');
 const swaggerDocument = require('./swagger/swagger.json');
 
 const port = process.env.PORT || 3000;
@@ -16,8 +16,9 @@ const config = {
   authRequired: false,
   auth0Logout: true,
   secret: process.env.SECRET,
-  baseURL: process.env.BASE_URL,
-  // baseURL: process.env.BASE_URL_TEST,
+  // baseURL: process.env.BASE_URL,
+  // baseURL: 'http://127.0.0.1:5500/frontend/test/',
+  baseURL: process.env.BASE_URL_TEST,
   clientID: process.env.CLIENT_ID,
   issuerBaseURL: process.env.ISSUER_BASE_URL,
   // Source for custom routes (Section 3):
@@ -28,17 +29,19 @@ const config = {
   }
 };
 
+/* SWAGGER documentation*/
+// app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocumentAuto), (req, res) => {
+//   res.setHeader('Content-Type: text/html; charset=utf-8');
+// });
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument), (req, res) => {
+  res.setHeader('Content-Type: text/html; charset=utf-8');
+});
+
 /* setup EXPRESS app */
 app
   /* AUTH0 validation */
   // .use(auth(config))
   .use(auth(config))
-  .get('/profile', requiresAuth(), (req, res) => res.send(`hello ${req.oidc.user.sub}`))
-  .get('/login', (req, res) => res.oidc.login({ returnTo: '/profile' }))
-  .get('/custom-logout', (req, res) => res.oidc.logout({ returnTo: '/test' }))
-  .get('/', (req, res) => res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out'))
-  .get('/Test', (req, res) => res.send('Welcome to test'))
-  .use(bodyParser.json())
   .use(cors())
   .use((req, res, next) => {
     // Change * to specific websites if so desired
@@ -51,11 +54,27 @@ app
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
     next();
   })
+  .get('/profile', requiresAuth(), (req, res) => {
+    // res.setHeader('Content-Type', 'application/json');
+    // res.status(200).json('te123');
+    res.send(`hello ${req.oidc.user.sub}`);
+  })
+  .get('/login', (req, res) => {
+    // res.setHeader('Content-Type', 'application/json');
+    // res.oidc.login({ returnTo: 'http://127.0.0.1:5500/frontend/test/' });
+    res.oidc.login({ returnTo: '/' });
+  })
+  .get('/custom-logout', (req, res) => res.oidc.logout({ returnTo: '/' }))
+  .get('/', (req, res) => {
+    res.setHeader('Content-Type', 'application/json');
+    console.log(req.oidc.isAuthenticated());
+    if (req.oidc.isAuthenticated() == true) {
+      res.status(200).json('Logged In');
+    } else res.status(200).json('Logged Out');
+  })
+  .get('/Test', (req, res) => res.send('Welcome to test'))
+  .use(bodyParser.json())
   .use('/', require('./routes'));
-
-/* SWAGGER documentation*/
-// app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocumentAuto));
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // to catch errors through the program
 process.on('uncaughtException', (err, origin) => {

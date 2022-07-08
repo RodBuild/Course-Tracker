@@ -4,7 +4,6 @@ const courses = require('./courses');
 const users = require('./users');
 const reviews = require('./reviews');
 const admin = require('./admin');
-const { route } = require('./schools');
 
 /* TODO 
     Schools -> routes -> controllers -> validation

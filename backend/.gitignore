@@ -6,4 +6,5 @@ JSON example
 swagger/swagger.js
 swagger/swagger-auto.json
 package-lock.json
-
+coverage
+globalConfig.json
