@@ -5,7 +5,7 @@ const mongodb = require('./database/connect');
 const bodyParser = require('body-parser');
 const { auth, requiresAuth } = require('express-openid-connect'); // AUTHH0
 const swaggerUi = require('swagger-ui-express');
-const swaggerDocumentAuto = require('./swagger/swagger-auto.json');
+// const swaggerDocumentAuto = require('./swagger/swagger-auto.json');
 const swaggerDocument = require('./swagger/swagger.json');
 
 const port = process.env.PORT || 3000;
@@ -16,9 +16,9 @@ const config = {
   authRequired: false,
   auth0Logout: true,
   secret: process.env.SECRET,
-  // baseURL: process.env.BASE_URL,
+  baseURL: process.env.BASE_URL,
   // baseURL: 'http://127.0.0.1:5500/frontend/test/',
-  baseURL: process.env.BASE_URL_TEST,
+  // baseURL: process.env.BASE_URL_TEST,
   clientID: process.env.CLIENT_ID,
   issuerBaseURL: process.env.ISSUER_BASE_URL,
   // Source for custom routes (Section 3):
