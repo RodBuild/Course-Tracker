@@ -12,6 +12,7 @@ Tools used to complete this project
 - Node.JS
 - Heroku
 - Swagger
+- Jest test
 - Auth0
 - MongoDB
 - Npm Express-Validator.js
